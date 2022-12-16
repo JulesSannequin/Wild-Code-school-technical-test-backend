@@ -13,12 +13,22 @@ const Argonaute = mongoose.model("Argonaute", {
 
 app.post("/create", async (req, res) => {
   try {
-    // console.log(req.body);
-    const newArgonaute = new Argonaute({
+    const argonauteExists = await Argonaute.findOne({
       name: req.body.name,
     });
-    await newArgonaute.save();
-    res.json(newArgonaute);
+    if (argonauteExists) {
+      res.status(400).json({
+        error: {
+          message: "eh oh cet argonaute est déja a bord",
+        },
+      });
+    } else {
+      const newArgonaute = new Argonaute({
+        name: req.body.name,
+      });
+      await newArgonaute.save();
+      res.json(newArgonaute);
+    }
   } catch (error) {
     res.status(400).json({
       error: error.message,

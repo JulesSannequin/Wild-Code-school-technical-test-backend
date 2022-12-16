@@ -36,6 +36,17 @@ app.post("/create", async (req, res) => {
   }
 });
 
+app.get("/", async (req, res) => {
+  try {
+    const argonautes = await Argonaute.find();
+    res.json(argonautes);
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+});
+
 app.listen(3000, () => {
   console.log("server has started");
 });

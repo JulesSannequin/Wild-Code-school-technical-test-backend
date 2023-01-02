@@ -4,13 +4,13 @@ const cors = require("cors");
 
 const app = express();
 
-// app.use(cors({origin: true, credentials: true}));
-
 app.use(cors());
 
 app.use(express.json());
 
 mongoose.connect("mongodb://localhost/Argonautes");
+
+mongoose.set("strictQuery", true);
 
 const Argonaute = mongoose.model("Argonaute", {
   name: String,
